@@ -1,0 +1,31 @@
+name: Node.js CD - Preview
+
+on:
+    push:
+        branches: [develop]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: appleboy/ssh-action@master
+              name: Deploy preview on VPS
+              with:
+                host: ${{ secrets.HOST }}
+                username: ${{ secrets.USERNAME }}
+                key: ${{ secrets.PRIVATE_KEY }}
+                passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                port: 22
+                script: |
+                    export PATH="$PATH:/home/reginald/.nvm/versions/node/v16.16.0/bin/"
+                    export NVM_DIR=~/.nvm
+                    source ~/.nvm/nvm.sh
+                    nvm use --lts
+                    cd ~/dev/repos/nuitdelinfo-2022/preview/nestjs-app
+                    git checkout develop
+                    git pull
+                    yarn install
+                    yarn build
+                    pm2 delete crabe-cool-preview
+                    pm2 start dist/main.js --name crabe-cool-preview
