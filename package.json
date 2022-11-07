@@ -59,9 +59,6 @@
   },
   "jest": {
     "globals": {
-      "ts-jest": {
-        "compiler": "ttypescript"
-      }
     },
     "setupFiles": [
       "<rootDir>test/jest-ts-config.ts"
@@ -73,7 +70,9 @@
     ],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
+      "^.+\\.(t|j)s$": ["ts-jest", {
+        "compiler": "ttypescript"
+      }]
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
