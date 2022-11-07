@@ -1,13 +1,14 @@
-export class Configuration {
-    application = new ApplicationConfiguration();
+import { Environment } from './environment';
+
+export interface IApplicationConfiguration {
+    APP_ENV: string;
+    APP_URL: string;
+    isEnvDev: boolean;
+    isEnvProduction: boolean;
+    isUnderTest: boolean;
 }
 
-enum Environment {
-    Development = 'DEV',
-    Production = 'PROD',
-}
-
-export class ApplicationConfiguration {
+export class ApplicationConfiguration implements IApplicationConfiguration {
     private APP_UNDER_TEST = false;
 
     APP_ENV: string;
