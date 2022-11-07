@@ -80,6 +80,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node",
-    "verbose": true
+    "verbose": false
   }
 }
