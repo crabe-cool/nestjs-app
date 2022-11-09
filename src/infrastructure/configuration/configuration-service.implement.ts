@@ -8,8 +8,11 @@ import {
     DatabaseConfiguration,
     IDatabaseConfiguration,
 } from './model/database-configuration';
+import { IConfigurationService } from './configuration-service.interface';
+import { Injectable } from '@nestjs/common';
 
-export class ConfigurationService {
+@Injectable()
+export class ConfigurationServiceImplement implements IConfigurationService {
     private readonly configuration: IConfiguration;
 
     get application(): IApplicationConfiguration {
