@@ -1,5 +1,8 @@
 import { DbHelper } from './database-helper';
-import { IConfigurationService } from './configuration-service.interface';
+import {
+    IConfigurationService,
+    IDatabaseApplicationConfiguration,
+} from './configuration-service.interface';
 import { IDatabaseService } from './database-service.interface';
 import { Inject, Injectable } from '@nestjs/common';
 
@@ -11,16 +14,23 @@ export class DatabaseServiceImplement implements IDatabaseService {
     ) {}
 
     get connectionString(): string {
-        const { MONGODB_DBNAME } = this.configurationService.database;
-        const { isEnvDev, isUnderTest } = this.configurationService.application;
+        const { application } = this.configurationService;
+        const dbName = this.computeDbName(application);
+        return this.computeConnectionString(application, dbName);
+    }
 
-        let dbName = MONGODB_DBNAME;
-        if (isUnderTest) {
-            const { MONGODB_TESTING_DBNAME } =
-                this.configurationService.database;
-            dbName = MONGODB_TESTING_DBNAME;
-        }
+    private computeDbName({
+        isUnderTest,
+    }: IDatabaseApplicationConfiguration): string {
+        return isUnderTest
+            ? this.configurationService.database.MONGODB_TESTING_DBNAME
+            : this.configurationService.database.MONGODB_DBNAME;
+    }
 
+    private computeConnectionString(
+        { isEnvDev }: IDatabaseApplicationConfiguration,
+        dbName: string,
+    ): string {
         if (isEnvDev) {
             const { MONGODB_DEV_URI } = this.configurationService.database;
 
