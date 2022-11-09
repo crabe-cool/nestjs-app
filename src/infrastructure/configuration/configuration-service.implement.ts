@@ -39,6 +39,9 @@ export class ConfigurationServiceImplement implements IConfigurationService {
         this.application.APP_ENV =
             this.nestConfigService.get<string>('APP_ENV');
 
+        this.application.APP_PORT =
+            +this.nestConfigService.get<string>('APP_PORT');
+
         this.application.APP_URL =
             this.nestConfigService.get<string>('APP_URL');
 
@@ -79,7 +82,9 @@ export class ConfigurationServiceImplement implements IConfigurationService {
 
     private areAppEnvVariablesSet(): boolean {
         return new Boolean(
-            this.application.APP_ENV && this.application.APP_URL,
+            this.application.APP_ENV &&
+                this.application.APP_PORT &&
+                this.application.APP_URL,
         ).valueOf();
     }
 

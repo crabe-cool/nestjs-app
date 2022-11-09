@@ -25,6 +25,10 @@ describe('ConfigurationServiceImplement', () => {
                 .mockReturnValue(undefined);
 
             when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(3890);
+
+            when(nestConfigServiceGet)
                 .calledWith('APP_URL')
                 .mockReturnValue('appUrl');
 
@@ -41,6 +45,7 @@ describe('ConfigurationServiceImplement', () => {
             );
 
             const appEnv = Environment.Production;
+            const appPort = 2348913;
             const appUrl = 'http://host:port';
 
             mockRequiredDbEnvVariables(appEnv, nestConfigServiceGet);
@@ -48,6 +53,10 @@ describe('ConfigurationServiceImplement', () => {
             when(nestConfigServiceGet)
                 .calledWith('APP_ENV')
                 .mockReturnValue(appEnv);
+
+            when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(appPort);
 
             when(nestConfigServiceGet)
                 .calledWith('APP_URL')
@@ -60,6 +69,7 @@ describe('ConfigurationServiceImplement', () => {
             sut.setup();
 
             expect(sut.application.APP_ENV).toEqual(appEnv);
+            expect(sut.application.APP_PORT).toEqual(appPort);
             expect(sut.application.APP_URL).toEqual(appUrl);
             expect(sut.application.isUnderTest).toEqual(true);
             expect(sut.hasBeenSetup).toBe(true);
@@ -73,6 +83,10 @@ describe('ConfigurationServiceImplement', () => {
             when(nestConfigServiceGet)
                 .calledWith('APP_ENV')
                 .mockReturnValue(Environment.Development);
+
+            when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(38102);
 
             when(nestConfigServiceGet)
                 .calledWith('APP_URL')
@@ -113,6 +127,10 @@ describe('ConfigurationServiceImplement', () => {
                 .mockReturnValue(Environment.Development);
 
             when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(30400);
+
+            when(nestConfigServiceGet)
                 .calledWith('APP_URL')
                 .mockReturnValue('http://host:port');
 
@@ -148,6 +166,13 @@ describe('ConfigurationServiceImplement', () => {
                 .calledWith('APP_ENV')
                 .mockReturnValue(Environment.Production);
 
+            when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(74201);
+
+            when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(38102);
             when(nestConfigServiceGet)
                 .calledWith('APP_URL')
                 .mockReturnValue('http://host:port');
@@ -193,6 +218,10 @@ describe('ConfigurationServiceImplement', () => {
                 .mockReturnValue(appEnv);
 
             when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(62718);
+
+            when(nestConfigServiceGet)
                 .calledWith('APP_URL')
                 .mockReturnValue('http://host:port');
 
@@ -225,6 +254,10 @@ describe('ConfigurationServiceImplement', () => {
             when(nestConfigServiceGet)
                 .calledWith('APP_ENV')
                 .mockReturnValue(appEnv);
+
+            when(nestConfigServiceGet)
+                .calledWith('APP_PORT')
+                .mockReturnValue(464);
 
             when(nestConfigServiceGet)
                 .calledWith('APP_URL')

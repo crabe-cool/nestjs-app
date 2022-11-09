@@ -2,6 +2,7 @@ import { Environment } from './environment';
 
 export interface IApplicationConfiguration {
     APP_ENV: string;
+    APP_PORT: number;
     APP_URL: string;
     isEnvDev: boolean;
     isEnvProduction: boolean;
@@ -12,6 +13,7 @@ export class ApplicationConfiguration implements IApplicationConfiguration {
     private APP_UNDER_TEST = false;
 
     APP_ENV: string;
+    APP_PORT: number;
     APP_URL: string;
 
     get isEnvDev(): boolean {
