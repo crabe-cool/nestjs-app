@@ -7,4 +7,6 @@ export interface IDatabaseApplicationConfiguration
 export interface IConfigurationService {
     database: IDatabaseConfiguration;
     application: IDatabaseApplicationConfiguration;
+    hasBeenSetup: boolean;
+    setup(): void;
 }

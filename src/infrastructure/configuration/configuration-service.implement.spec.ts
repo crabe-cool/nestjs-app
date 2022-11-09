@@ -62,6 +62,7 @@ describe('ConfigurationServiceImplement', () => {
             expect(sut.application.APP_ENV).toEqual(appEnv);
             expect(sut.application.APP_URL).toEqual(appUrl);
             expect(sut.application.isUnderTest).toEqual(true);
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should give application the right environment state when given the right input', () => {
@@ -94,7 +95,9 @@ describe('ConfigurationServiceImplement', () => {
                 .mockReturnValue('mongodbTestingDbName');
 
             sut.setup();
+
             expect(sut.application.isEnvDev).toEqual(true);
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should retrieve only dev database environment variables from DatabaseConfiguration when given env is DEV', () => {
@@ -128,6 +131,7 @@ describe('ConfigurationServiceImplement', () => {
             expect(sut.database.MONGODB_URI).toBeUndefined();
             expect(sut.database.MONGODB_USER).toBeUndefined();
             expect(sut.database.MONGODB_PASSWORD).toBeUndefined();
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should retrieve only database cluster environment variables from DatabaseConfiguration when given any other env than DEV', () => {
@@ -171,6 +175,7 @@ describe('ConfigurationServiceImplement', () => {
             expect(sut.database.MONGODB_USER).toBe(mongoDbUser);
             expect(sut.database.MONGODB_PASSWORD).toBe(mongoDbPassword);
             expect(sut.database.MONGODB_DEV_URI).toBeUndefined();
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should retrieve testing db name from DatabaseConfiguration only when app is under test', () => {
@@ -204,6 +209,7 @@ describe('ConfigurationServiceImplement', () => {
             expect(sut.database.MONGODB_TESTING_DBNAME).toBe(
                 mongoDbTestingDbName,
             );
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should not retrieve testing db name from DatabaseConfiguration when app is not under test', () => {
@@ -235,6 +241,7 @@ describe('ConfigurationServiceImplement', () => {
             sut.setup();
 
             expect(sut.database.MONGODB_TESTING_DBNAME).toBeUndefined();
+            expect(sut.hasBeenSetup).toBe(true);
         });
 
         it('should throw an error if at least one required dev db environment variable is not set', () => {
