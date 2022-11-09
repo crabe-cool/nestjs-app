@@ -11,24 +11,33 @@ export class DatabaseServiceImplement implements IDatabaseService {
     ) {}
 
     get connectionString(): string {
-        if (this.configurationService.application.isEnvDev) {
-            const { MONGODB_DEV_URI, MONGODB_DBNAME } =
+        const { MONGODB_DBNAME } = this.configurationService.database;
+        const { isEnvDev, isUnderTest } = this.configurationService.application;
+
+        let dbName = MONGODB_DBNAME;
+        if (isUnderTest) {
+            const { MONGODB_TESTING_DBNAME } =
                 this.configurationService.database;
+            dbName = MONGODB_TESTING_DBNAME;
+        }
+
+        if (isEnvDev) {
+            const { MONGODB_DEV_URI } = this.configurationService.database;
 
             return DbHelper.replace(MONGODB_DEV_URI, {
                 placeholder: '<dbname>',
-                newValue: MONGODB_DBNAME,
+                newValue: dbName,
             });
         }
 
-        const { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD, MONGODB_DBNAME } =
+        const { MONGODB_URI, MONGODB_USER, MONGODB_PASSWORD } =
             this.configurationService.database;
 
         return DbHelper.replace(
             MONGODB_URI,
             { placeholder: '<user>', newValue: MONGODB_USER },
             { placeholder: '<password>', newValue: MONGODB_PASSWORD },
-            { placeholder: '<dbname>', newValue: MONGODB_DBNAME },
+            { placeholder: '<dbname>', newValue: dbName },
         );
     }
 }

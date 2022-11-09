@@ -41,5 +41,20 @@ describe('DatabaseServiceImplement', () => {
 
             expect(result).toBe('user_password@name');
         });
+
+        it('should return any filled database URI with testing db name when app is under test', () => {
+            const mongoDevDbUri = '<dbname>';
+            const mongoDbTestingDbName = 'test';
+
+            configurationService.application.isEnvDev = true;
+            configurationService.application.isUnderTest = true;
+            configurationService.database.MONGODB_DEV_URI = mongoDevDbUri;
+            configurationService.database.MONGODB_TESTING_DBNAME =
+                mongoDbTestingDbName;
+
+            const result = sut.connectionString;
+
+            expect(result).toBe(mongoDbTestingDbName);
+        });
     });
 });
