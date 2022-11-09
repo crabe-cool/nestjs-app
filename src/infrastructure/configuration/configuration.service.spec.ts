@@ -1,17 +1,17 @@
 import { ConfigService } from '@nestjs/config';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationServiceImplement } from './configuration-service.implement';
 import { createMock } from 'ts-auto-mock';
 import { Environment } from './model/environment';
 import { Method, method, On } from 'ts-auto-mock/extension';
 import { when } from 'jest-when';
 
-describe('ConfigurationService', () => {
-    let sut: ConfigurationService;
+describe('ConfigurationServiceImplement', () => {
+    let sut: ConfigurationServiceImplement;
     let nestConfigService: ConfigService;
 
     beforeEach(() => {
         nestConfigService = createMock<ConfigService>();
-        sut = new ConfigurationService(nestConfigService);
+        sut = new ConfigurationServiceImplement(nestConfigService);
     });
 
     describe('setup', () => {
