@@ -1,4 +1,4 @@
-import { DbHelper } from './database-helper';
+import { DbHelper } from './helper/database-helper';
 import {
     IConfigurationService,
     IDatabaseApplicationConfiguration,
