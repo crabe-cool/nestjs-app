@@ -1,10 +1,6 @@
 import { IApplicationConfiguration } from './application-configuration';
+import { IConfiguration } from './configuration.interface';
 import { IDatabaseConfiguration } from './database-configuration';
-
-export interface IConfiguration {
-    application: IApplicationConfiguration;
-    database: IDatabaseConfiguration;
-}
 
 export class Configuration implements IConfiguration {
     constructor(

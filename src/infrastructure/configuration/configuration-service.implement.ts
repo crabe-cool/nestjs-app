@@ -3,11 +3,12 @@ import {
     IApplicationConfiguration,
 } from './model/application-configuration';
 import { ConfigService } from '@nestjs/config';
-import { Configuration, IConfiguration } from './model/configuration';
+import { Configuration } from './model/configuration';
 import {
     DatabaseConfiguration,
     IDatabaseConfiguration,
 } from './model/database-configuration';
+import { IConfiguration } from './model/configuration.interface';
 import { IConfigurationService } from './configuration-service.interface';
 import { Injectable } from '@nestjs/common';
 
