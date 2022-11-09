@@ -11,7 +11,12 @@ export class DatabaseServiceImplement implements IDatabaseService {
     constructor(
         @Inject('ConfigurationService')
         private readonly configurationService: IConfigurationService,
-    ) {}
+    ) {
+        const { hasBeenSetup } = this.configurationService;
+        if (!hasBeenSetup) {
+            this.configurationService.setup();
+        }
+    }
 
     get connectionString(): string {
         const { application } = this.configurationService;

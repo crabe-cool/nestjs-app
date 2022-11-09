@@ -15,6 +15,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ConfigurationServiceImplement implements IConfigurationService {
     private readonly configuration: IConfiguration;
+    private _hasBeenSetup = false;
 
     get application(): IApplicationConfiguration {
         return this.configuration.application;
@@ -22,6 +23,10 @@ export class ConfigurationServiceImplement implements IConfigurationService {
 
     get database(): IDatabaseConfiguration {
         return this.configuration.database;
+    }
+
+    get hasBeenSetup(): boolean {
+        return this._hasBeenSetup;
     }
 
     constructor(private readonly nestConfigService: ConfigService) {
@@ -69,6 +74,8 @@ export class ConfigurationServiceImplement implements IConfigurationService {
                 'One or more required environment variables are not set.',
             );
         }
+
+        this.markAsSetup();
     }
 
     private areAppEnvVariablesSet(): boolean {
@@ -90,5 +97,9 @@ export class ConfigurationServiceImplement implements IConfigurationService {
                 this.database.MONGODB_PASSWORD &&
                 this.database.MONGODB_DBNAME,
         ).valueOf();
+    }
+
+    private markAsSetup(): void {
+        this._hasBeenSetup = true;
     }
 }

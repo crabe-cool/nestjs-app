@@ -24,7 +24,9 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
+    "mongoose": "^6.7.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"
@@ -58,8 +60,7 @@
     "typescript": "^4.7.4"
   },
   "jest": {
-    "globals": {
-    },
+    "globals": {},
     "setupFiles": [
       "<rootDir>test/jest-ts-config.ts"
     ],
@@ -70,9 +71,12 @@
     ],
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
-      "^.+\\.(t|j)s$": ["ts-jest", {
-        "compiler": "ttypescript"
-      }]
+      "^.+\\.(t|j)s$": [
+        "ts-jest",
+        {
+          "compiler": "ttypescript"
+        }
+      ]
     },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
