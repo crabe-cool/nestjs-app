@@ -9,6 +9,7 @@ import {
     MongooseModuleOptions,
 } from '@nestjs/mongoose';
 import { RouterModule } from '@nestjs/core';
+import { VersionModule } from './version/version.module';
 
 @Module({
     imports: [
@@ -35,9 +36,14 @@ import { RouterModule } from '@nestjs/core';
                         path: 'dummy',
                         module: DummyModule,
                     },
+                    {
+                        path: 'version',
+                        module: VersionModule,
+                    },
                 ],
             },
         ]),
+        VersionModule,
     ],
 })
 export class AppModule {}
