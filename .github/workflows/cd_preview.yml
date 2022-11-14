@@ -28,4 +28,4 @@ jobs:
                     yarn install
                     yarn build
                     pm2 delete crabe-cool-preview
-                    pm2 start dist/main.js --name crabe-cool-preview
+                    pm2 start dist/src/main.js --name crabe-cool-preview
