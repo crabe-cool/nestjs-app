@@ -1,3 +1,4 @@
+import { CqrsModule } from '@nestjs/cqrs';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { DatabaseServiceProviderToken } from './infrastructure/database/database-service.provider';
 import { IDatabaseService } from './infrastructure/database/database-service.interface';
@@ -13,6 +14,7 @@ import { VersionModule } from './version/version.module';
 
 @Module({
     imports: [
+        CqrsModule,
         MongooseModule.forRootAsync({
             imports: [DatabaseModule],
             inject: [DatabaseServiceProviderToken],
