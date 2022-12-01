@@ -7,12 +7,12 @@ describe('DbHelper', () => {
         it('should throw an error when given source is empty', () => {
             const inputs = ['', ' ', '   '];
             for (const input of inputs) {
-                expect(() => sut.replace2(input)).toThrowError();
+                expect(() => sut.replace(input)).toThrowError();
             }
         });
 
         it('should throw an error when no replace value is given', () => {
-            expect(() => sut.replace2('source', ...[])).toThrowError();
+            expect(() => sut.replace('source', ...[])).toThrowError();
         });
 
         it('should throw an error if given source does not contain replace value placeholder', () => {
@@ -22,7 +22,7 @@ describe('DbHelper', () => {
                 newValue: 'any value',
             };
 
-            expect(() => sut.replace2(source, replaceValue)).toThrowError();
+            expect(() => sut.replace(source, replaceValue)).toThrowError();
         });
 
         it('should replace source placeholders by replace values', () => {
@@ -38,7 +38,7 @@ describe('DbHelper', () => {
                 },
             ];
 
-            const result = sut.replace2(source, ...replaceValues);
+            const result = sut.replace(source, ...replaceValues);
 
             expect(result).toBe('this thing is tricky');
         });
