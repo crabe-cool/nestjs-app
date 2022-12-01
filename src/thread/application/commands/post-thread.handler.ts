@@ -14,7 +14,7 @@ export class PostThreadHandler implements ICommandHandler<PostThreadCommand> {
         private readonly threadRepository: IThreadRepository,
     ) {}
 
-    async execute({ thread }: PostThreadCommand): Promise<void> {
-        await this.threadRepository.post(thread);
+    execute({ thread }: PostThreadCommand): Promise<Thread> {
+        return this.threadRepository.post(thread);
     }
 }
