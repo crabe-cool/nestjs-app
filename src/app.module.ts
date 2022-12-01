@@ -1,6 +1,5 @@
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { DatabaseServiceProviderToken } from './infrastructure/database/database-service.provider';
-import { DummyModule } from './dummy/dummy.module';
 import { IDatabaseService } from './infrastructure/database/database-service.interface';
 import { Module } from '@nestjs/common';
 import {
@@ -9,11 +8,11 @@ import {
     MongooseModuleOptions,
 } from '@nestjs/mongoose';
 import { RouterModule } from '@nestjs/core';
+import { ThreadModule } from './thread/thread.module';
 import { VersionModule } from './version/version.module';
 
 @Module({
     imports: [
-        DummyModule,
         MongooseModule.forRootAsync({
             imports: [DatabaseModule],
             inject: [DatabaseServiceProviderToken],
@@ -33,16 +32,13 @@ import { VersionModule } from './version/version.module';
                 path: 'api',
                 children: [
                     {
-                        path: 'dummy',
-                        module: DummyModule,
-                    },
-                    {
                         path: 'version',
                         module: VersionModule,
                     },
                 ],
             },
         ]),
+        ThreadModule,
         VersionModule,
     ],
 })
