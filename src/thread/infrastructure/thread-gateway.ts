@@ -17,10 +17,15 @@ import { Server, Socket } from 'socket.io';
 import { Thread } from '../domain/thread';
 import { ThreadDTO } from './DTO/thread.dto';
 
+enum ThreadDTOState {
+    Created = 'created',
+    Updated = 'updated',
+}
+
 @WebSocketGateway({ cors: true })
 export class ThreadGateway implements OnModuleInit {
     private readonly logger = new Logger(ThreadGateway.name);
-    
+
     @WebSocketServer()
     server: Server;
 
@@ -32,7 +37,7 @@ export class ThreadGateway implements OnModuleInit {
     onModuleInit() {
         this.server.on('connection', async (socket: Socket) => {
             this.logger.verbose(`Socket "${socket.id}" connected`);
-            
+
             const query = new GetAllThreadsQuery();
             const threads = await this.queryBus.execute<
                 GetAllThreadsQuery,
@@ -47,8 +52,6 @@ export class ThreadGateway implements OnModuleInit {
     async handlePostThreadEvent(
         @MessageBody() { author, text, title }: ReceivedThreadDTO,
     ): Promise<void> {
-        this.logger.verbose(`postThread event triggered`);
-
         const thread = new Thread(author, new Date(), text, title);
 
         const command = new PostThreadCommand(thread);
@@ -57,15 +60,16 @@ export class ThreadGateway implements OnModuleInit {
             Thread
         >(command);
 
-        this.server.emit('onPostedThread', this.toDTO(created));
+        const threadDTO = this.toDTO(created);
+
+        this.logThreadDTO(threadDTO, ThreadDTOState.Created);
+        this.server.emit('onPostedThread', threadDTO);
     }
 
     @SubscribeMessage('answerThread')
     async handleAnswerThreadEvent(
         @MessageBody() { threadId, author, text }: ReceivedMessageDTO,
     ): Promise<void> {
-        this.logger.verbose(`answerThread event triggered`);
-
         const message = new Message(author, new Date(), text);
 
         const command = new AnswerThreadCommand(threadId, message);
@@ -74,7 +78,10 @@ export class ThreadGateway implements OnModuleInit {
             Thread
         >(command);
 
-        this.server.emit('onAnsweredThread', this.toDTO(updated));
+        const threadDTO = this.toDTO(updated);
+
+        this.logThreadDTO(threadDTO, ThreadDTOState.Updated);
+        this.server.emit('onAnsweredThread', threadDTO);
     }
 
     private toDTOs(threads: Thread[]): ThreadDTO[] {
@@ -96,6 +103,16 @@ export class ThreadGateway implements OnModuleInit {
                         message.postingDate,
                     ),
             ),
+        );
+    }
+
+    private logThreadDTO(threadDTO: ThreadDTO, state: ThreadDTOState): void {
+        this.logger.verbose(
+            `Triggered answerThread event, returned ${state} thread\n${JSON.stringify(
+                threadDTO,
+                null,
+                '\t'
+            )}`
         );
     }
 }

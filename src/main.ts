@@ -10,7 +10,7 @@ async function bootstrap() {
     const configurationService = app.get<IConfigurationService>(
         'ConfigurationService',
     );
-    
+
     if (configurationService.application.isEnvDev) {
         app.enableCors();
     } else {
