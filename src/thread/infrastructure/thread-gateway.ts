@@ -9,7 +9,7 @@ import {
     WebSocketServer,
 } from '@nestjs/websockets';
 import { MessageDTO } from './DTO/message.dto';
-import { OnModuleInit } from '@nestjs/common';
+import { Logger, OnModuleInit } from '@nestjs/common';
 import { PostThreadCommand } from '../application/commands/post-thread.handler';
 import { ReceivedMessageDTO } from './DTO/received-message.dto';
 import { ReceivedThreadDTO } from './DTO/received-thread.dto';
@@ -19,6 +19,8 @@ import { ThreadDTO } from './DTO/thread.dto';
 
 @WebSocketGateway({ cors: true })
 export class ThreadGateway implements OnModuleInit {
+    private readonly logger = new Logger(ThreadGateway.name);
+    
     @WebSocketServer()
     server: Server;
 
@@ -29,6 +31,8 @@ export class ThreadGateway implements OnModuleInit {
 
     onModuleInit() {
         this.server.on('connection', async (socket: Socket) => {
+            this.logger.verbose(`Socket "${socket.id}" connected`);
+            
             const query = new GetAllThreadsQuery();
             const threads = await this.queryBus.execute<
                 GetAllThreadsQuery,
@@ -43,6 +47,8 @@ export class ThreadGateway implements OnModuleInit {
     async handlePostThreadEvent(
         @MessageBody() { author, text, title }: ReceivedThreadDTO,
     ): Promise<void> {
+        this.logger.verbose(`postThread event triggered`);
+
         const thread = new Thread(author, new Date(), text, title);
 
         const command = new PostThreadCommand(thread);
@@ -58,6 +64,8 @@ export class ThreadGateway implements OnModuleInit {
     async handleAnswerThreadEvent(
         @MessageBody() { threadId, author, text }: ReceivedMessageDTO,
     ): Promise<void> {
+        this.logger.verbose(`answerThread event triggered`);
+
         const message = new Message(author, new Date(), text);
 
         const command = new AnswerThreadCommand(threadId, message);
