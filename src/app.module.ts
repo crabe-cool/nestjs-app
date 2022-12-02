@@ -2,6 +2,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { DatabaseServiceProviderToken } from './infrastructure/database/database-service.provider';
 import { IDatabaseService } from './infrastructure/database/database-service.interface';
+import { join } from 'path';
 import { Module } from '@nestjs/common';
 import {
     MongooseModule,
@@ -9,6 +10,7 @@ import {
     MongooseModuleOptions,
 } from '@nestjs/mongoose';
 import { RouterModule } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { ThreadModule } from './thread/thread.module';
 import { VersionModule } from './version/version.module';
 
@@ -40,6 +42,9 @@ import { VersionModule } from './version/version.module';
                 ],
             },
         ]),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '../..', 'public'),
+        }),
         ThreadModule,
         VersionModule,
     ],
