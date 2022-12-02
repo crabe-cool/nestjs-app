@@ -17,7 +17,7 @@ import { Server, Socket } from 'socket.io';
 import { Thread } from '../domain/thread';
 import { ThreadDTO } from './DTO/thread.dto';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class ThreadGateway implements OnModuleInit {
     @WebSocketServer()
     server: Server;
