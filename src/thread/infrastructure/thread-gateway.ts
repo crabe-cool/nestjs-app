@@ -111,8 +111,8 @@ export class ThreadGateway implements OnModuleInit {
             `Triggered answerThread event, returned ${state} thread\n${JSON.stringify(
                 threadDTO,
                 null,
-                '\t'
-            )}`
+                '\t',
+            )}`,
         );
     }
 }
